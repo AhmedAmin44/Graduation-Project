@@ -1,8 +1,8 @@
 class EndPoint {
   static String baseUrl = "https://nextstep.runasp.net/api/";
   static String signIn = "Auth/login-student";
-  static const String studentApplications = "Applications/GetAppsForStudent"; // or your actual endpoint
-  static const String decodeToken = "Auth/decode-token"; // Add if decoding is done via API
+  static const String studentApplications = "Applications/GetAppsForStudent"; 
+  static const String decodeToken = "Auth/decode-token"; 
 
   static String applicationDetailsAndStatus(int applicationId) {
     return "Applications/$applicationId/details";

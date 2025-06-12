@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (e) {
       debugPrint('Error picking image: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('حدث خطأ أثناء اختيار الصورة')),
+        const SnackBar(content: Text('Something went wrong while picking the image. Please try again.')),
       );
     }
   }

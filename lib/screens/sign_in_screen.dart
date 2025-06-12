@@ -14,27 +14,15 @@ class LoginScreen extends StatelessWidget {
         body: CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: [
-            SliverToBoxAdapter(
-              child: WelcomeBanner(),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(height: 32),
-            ),
-            SliverToBoxAdapter(
-              child: WelcomeWidget(text: AppStrings.welcomeBack),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(height: 80),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+            SliverToBoxAdapter(child: WelcomeBanner(),),
+            SliverToBoxAdapter(child: SizedBox(height: 32), ),
+            SliverToBoxAdapter(child: WelcomeWidget(text: AppStrings.welcomeBack),),
+            SliverToBoxAdapter( child: SizedBox(height: 80),),
+            SliverToBoxAdapter(child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: CustomSignInForm(),
-              ),
+                child: CustomSignInForm(), ),
             ),
-            SliverToBoxAdapter(
-              child: SizedBox(height: 20),
-            ),
+            SliverToBoxAdapter(child: SizedBox(height: 20),),
           ],
         ),
       ),

@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:graduation_app/cache/cache_helper.dart';
 import 'package:graduation_app/core/utils/app_colors.dart';
 import 'package:graduation_app/core/utils/app_string.dart';
 import 'package:graduation_app/core/utils/app_text_style.dart';
+import 'package:graduation_app/screens/on_boarding_screen.dart';
 import 'package:graduation_app/screens/sign_in_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,23 +14,24 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   late final AnimationController _controller;
   late final AnimationController _opacityController;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _fadeAnimation;
 
+  bool _isMounted = true;
+
   @override
   void initState() {
     super.initState();
 
-    // Slide animation controller
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
 
-    // Fade animation controller
     _opacityController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
@@ -45,25 +48,51 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
     _runAnimations();
 
-    Future.delayed(const Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
-      );
+    // التنقل بعد 4 ثواني
+    Future.delayed(const Duration(seconds: 4), () async {
+      if (!_isMounted) return;
+
+      bool isOnboardingVisited =
+          getIt<CacheHelper>().getData(key: "isOnboardingVisited") ?? false;
+      print("🧪 isOnboardingVisited في Splash: $isOnboardingVisited");
+
+      String? token = getIt<CacheHelper>().getData(key: "token");
+
+      if (!isOnboardingVisited) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+        );
+      } else if (token != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+      }
     });
   }
 
   void _runAnimations() async {
-    await _controller.forward(); // Slide in
-    await _opacityController.forward(); // Fade in
+    if (!_isMounted) return;
+    await _controller.forward();
+    await _opacityController.forward();
     await Future.delayed(const Duration(milliseconds: 500));
-    await _opacityController.reverse(); // Fade out
+    if (!_isMounted) return;
+    await _opacityController.reverse();
     await Future.delayed(const Duration(milliseconds: 300));
-    await _opacityController.forward(); // Fade in again
+    if (!_isMounted) return;
+    await _opacityController.forward();
+    await Future.delayed(const Duration(milliseconds: 200));
   }
 
   @override
   void dispose() {
+    _isMounted = false;
     _controller.dispose();
     _opacityController.dispose();
     super.dispose();
@@ -78,12 +107,19 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
           position: _slideAnimation,
           child: FadeTransition(
             opacity: _fadeAnimation,
-            child: Text(
-              AppStrings.appName,
-              style: CustomTextStyles.pacifico400style64.copyWith(
-                color: Colors.white,
-                fontSize: 40,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/logo.png', height: 200, width: 200),
+                const SizedBox(height: 50),
+                Text(
+                  AppStrings.appName,
+                  style: CustomTextStyles.pacifico400style64.copyWith(
+                    color: Colors.white,
+                    fontSize: 40,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

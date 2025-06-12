@@ -7,13 +7,11 @@ import 'package:graduation_app/cubit/try_app_cubit.dart';
 class RequestStatusScreen extends StatelessWidget {
   final int applicationId;
   final String token;
-
   const RequestStatusScreen({
     super.key,
     required this.applicationId,
     required this.token,
   });
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +26,6 @@ class RequestStatusScreen extends StatelessWidget {
               return Center(child: Text(state.message));
             } else if (state is ApplicationLoaded) {
               final details = state.applicationDetails;
-
               switch (details.status) {
                 case 'مقبول':
                   return _StatusScreen(

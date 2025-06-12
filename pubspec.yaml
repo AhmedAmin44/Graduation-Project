@@ -36,22 +36,23 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^9.1.0
   fluttertoast: ^8.2.12
+  get_it: ^8.0.3
   image_picker: ^1.1.2
   intl: ^0.20.2
   jwt_decoder: ^2.0.1
   shared_preferences: ^2.5.3
+  smooth_page_indicator: ^1.2.1
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.14.4 
 
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/sign_In_image.png"
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
